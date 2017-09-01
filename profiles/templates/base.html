@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Profile{% endblock %}</title>
+
+  {%load staticfiles %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+  <link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="{% static 'profiles/style.css' %}" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+          {% url 'Home' as Home %}
+          {% url 'About' as About %}
+          {% url 'Contact' as Contact %}
+        <li{% if request.path == Home %} class="active" {% endif %}><a href="{% url 'Home'  %}">Home </a></li>
+        <li {% if request.path == About %} class="active" {% endif %}><a href="{% url 'About'  %}">About</a></li>
+      <li {% if request.path == Contact %} class="active" {% endif %}><a href="{% url 'Contact'  %}">Contact</a></li>
+      </ul>
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+              {% if not request.user.is_authenticated %}
+            <li><a href="{% url 'account_login'  %}">Login</a></li>
+            <li><a href="{% url 'account_signup'  %}">Signup</a></li>
+              {% else %}
+            <li><a href="{% url 'account_logout'  %}">Logout</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+              {% endif %}
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+{% block body %}
+    {% block content %}
+    {% endblock content %}
+{% endblock %}
+
+
+<script src="https://js.stripe.com/v2/"></script>
+
+    {% block script %}
+    {% endblock %}
+<script>
+    $(document).ready(function(){
+        {% block jquery %}
+        {% endblock %}
+    });
+
+</script>
+
+</body>
+</html>
